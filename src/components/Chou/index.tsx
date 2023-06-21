@@ -32,7 +32,7 @@ const Chou: Component<{
         margin: 0,
       }}
     >
-      <img src="/src/assets/drawing.svg" style={{ width: '100px', position: 'absolute', top: 0, left: 0 }} />
+      <img src="/assets/drawing.svg" style={{ width: '100px', position: 'absolute', top: 0, left: 0 }} />
       <Show when={!enabled()}>
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
           <CarbonClose width={'100px'} height={'100px'} color="red" />
