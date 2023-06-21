@@ -128,7 +128,7 @@ const App: Component = () => {
           'overflow-x': 'hidden',
           'overflow-y': 'hidden',
         }}>
-          <img src='/assets/qingque.png' style={{
+          <img src='/assets/qingque.webp' style={{
             'max-width': '100vw',
             'max-height': '100vh',
             'min-width': '1000px',
