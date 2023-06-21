@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald&display=swap');
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+.ring {
+  box-shadow: 0 6px 0 2px #eee, 0px 8px 0 3px #48696b, 0 3px 14px #abf4e2;
+}
+
+.ma-shan {
+  font-family: 'Ma Shan Zheng';
+}
+
+.oswald {
+  font-family: 'Oswald';
+}
+
+@keyframes anim-in {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes anim-in {
+  0% {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.anim-in {
+  animation: anim-in 0.2s;
+  -webkit-animation: anim-in 0.2s;
+}
+
+a {
+  color: lightgray;
+  display: block;
+  margin: 0.2rem;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+}
