@@ -12,12 +12,13 @@ const Chou: Component<{
     if (props.gangKai) return
     if (!props.gangKai && props.num <= 0) {
       pushMsg('战技点不足')
-      return 
+      return
     }
     props.onClick(-1)
   }
   return (
     <button
+      class="chou-size"
       onClick={onBtnClicked}
       style={{
         'background': 'none',
@@ -25,17 +26,15 @@ const Chou: Component<{
         'outline': 'none',
         'position': 'relative',
         'display': 'block',
-        'width': '100px',
-        'height': '100px',
-        'cursor':' pointer',
+        'cursor': ' pointer',
         padding: 0,
         margin: 0,
       }}
     >
-      <img src="/assets/drawing.svg" style={{ width: '100px', position: 'absolute', top: 0, left: 0 }} />
+      <img src="/assets/drawing.svg" style={{ position: 'absolute', top: 0, left: 0 }} class="chou-size" />
       <Show when={!enabled()}>
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
-          <CarbonClose width={'100px'} height={'100px'} color="red" />
+          <CarbonClose color="red" class="chou-size" />
         </div>
       </Show>
     </button>

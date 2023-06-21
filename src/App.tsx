@@ -12,6 +12,8 @@ import { CarbonRestart } from './components/icons/Restart';
 import { CarbonInformation } from './components/icons/Info';
 import { CarbonClose } from './components/icons/Cross';
 import { randNum } from './utils/getRand';
+import { Info } from './components/Info';
+import { ZhanJiDianBuZu } from './components/ZhanJiDianBuZu';
 
 const initNum = 5
 
@@ -131,21 +133,12 @@ const App: Component = () => {
           <img src='/assets/qingque.webp' style={{
             'max-width': '100vw',
             'max-height': '100vh',
-            'min-width': '1000px',
+            'min-width': '800px',
             'overflow-x': 'hidden',
             'overflow-y': 'hidden',
           }} />
         </div>
-        <div
-          class="ma-shan"
-          style={{
-            "font-size": '4rem',
-            "text-align": 'center',
-            'padding-top': '4rem',
-            color: '#fff',
-            'text-shadow': '0 0 1rem #000',
-          }}
-        >
+        <div class="ma-shan title">
           <Switch fallback="这是一场豪赌">
             <Match when={!gangKai() && num() <= 0}>
               输得一塌糊涂
@@ -158,24 +151,13 @@ const App: Component = () => {
         </div>
         <div style={{ flex: 1 }} />
           <CurrentTable pai={paiShown} />
-        <div style={{ display: 'flex', 'justify-content': 'end', "max-width": '80vw', "margin-top": '1rem', "margin-bottom": '2rem' }}>
+        <div style={{ display: 'flex', 'justify-content': 'end', "max-width": '80vw', "margin-top": '1rem', "margin-bottom": '2rem', 'margin-left': '1rem', "margin-right": '1rem' }}>
           <Point num={num()} />
           <Chou gangKai={gangKai()} num={num()} onClick={haiDiLaoYue} />
         </div>
       </div>
       <Portal>
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center' }}>
-          <For each={msg()}>
-            {(it) => (
-              <div
-                style={{ background: '#00000090', padding: '0.5rem 4rem', margin: '0.2rem auto', color: 'white' }}
-                class='anim-in'
-              >
-                {it.msg}
-              </div>
-            )}
-          </For>
-        </div>
+        <ZhanJiDianBuZu />
       </Portal>
       <div style={{ position: 'absolute', top: '4px', right: '4px', "z-index": 99 }}>
         <CarbonRestart color="white" style={{ cursor: 'pointer', "font-size": '1.5rem', display: 'block', margin: '0.5rem' }} onClick={reset} />
@@ -190,27 +172,7 @@ const App: Component = () => {
       </Show>
       <Show when={showInfo()}>
         <Portal>
-          <div style={{
-            position: 'absolute',
-            top: 0, bottom: 0, left: 0, right: 0,
-            display: 'flex', "justify-content": 'center', "align-items": 'center',
-          }}
-          >
-            <div style={{
-              padding: '1rem',
-              background: '#597F81e0',
-              "border-radius": '0.5rem',
-              'backdrop-filter': 'blur(8px)',
-              position: 'relative',
-              "text-align": 'center'
-            }}>
-              <CarbonClose style={{ position: 'absolute', top: '0.5rem', right: '0.5rem', color: 'white', cursor: 'pointer' }} onClick={() => setShowInfo(false)} />
-              <a href="https://gethub.com/widcardw" target="_blank">GitHub</a>
-              <a href="https://wiki.biligame.com/sr/%E6%96%87%E4%BB%B6:%E9%9D%92%E9%9B%80%E7%AB%8B%E7%BB%98.png" target="_blank">立绘来源 biligame</a>
-              <a href="https://www.bilibili.com/video/BV1fV4y1m758" target="_blank">牌面来源 叶子1537</a>
-              <div style={{ color: 'lightgray' }}>仅供娱乐 禁止商用</div>
-            </div>
-          </div>
+          <Info setShowInfo={setShowInfo} />
         </Portal>
       </Show>
     </>

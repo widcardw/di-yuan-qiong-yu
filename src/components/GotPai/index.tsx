@@ -6,7 +6,7 @@ const GotPai: Component<{
   list: (PaiTypes | null)[]
 }> = (props) => {
   return (
-    <MahjangList list={props.list} />
+    <MahjangList list={props.list} cls="pop-up" />
   )
 }
 

@@ -7,9 +7,10 @@ import { Blank } from "./Blank";
 
 const MahjangList: Component<{
   list: (PaiTypes | null)[]
+  cls?: string
 }> = (props) => {
   return (
-    <div class="space-x-4" style={{ 'overflow-x': 'hidden', padding: '1rem', display: 'flex', 'justify-content': 'center' }}>
+    <div class={`space-x-4 ${props.cls}`} style={{ 'overflow-x': 'hidden', padding: '1rem', display: 'flex', 'justify-content': 'center' }}>
       <For each={props.list}>
         {(it) => (
           <Switch fallback={<Blank />}>
