@@ -9,7 +9,7 @@ const MahjangList: Component<{
   list: (PaiTypes | null)[]
 }> = (props) => {
   return (
-    <div class="space-x-4">
+    <div class="space-x-4" style={{ 'overflow-x': 'hidden', padding: '1rem', display: 'flex', 'justify-content': 'center' }}>
       <For each={props.list}>
         {(it) => (
           <Switch fallback={<Blank />}>

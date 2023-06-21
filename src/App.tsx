@@ -157,9 +157,7 @@ const App: Component = () => {
           <div>{beilv()}</div>
         </div>
         <div style={{ flex: 1 }} />
-        <div style={{ display: 'flex', 'justify-content': 'center' }}>
           <CurrentTable pai={paiShown} />
-        </div>
         <div style={{ display: 'flex', 'justify-content': 'end', "max-width": '80vw', "margin-top": '1rem', "margin-bottom": '2rem' }}>
           <Point num={num()} />
           <Chou gangKai={gangKai()} num={num()} onClick={haiDiLaoYue} />
