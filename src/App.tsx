@@ -7,18 +7,18 @@ import { CurrentTable } from './components/CurrentTable';
 import { GotPai } from './components/GotPai';
 import { Chou } from './components/Chou';
 import { Portal } from 'solid-js/web';
-import { msg } from './utils/stores';
 import { CarbonRestart } from './components/icons/Restart';
 import { CarbonInformation } from './components/icons/Info';
-import { CarbonClose } from './components/icons/Cross';
 import { randNum } from './utils/getRand';
 import { Info } from './components/Info';
 import { ZhanJiDianBuZu } from './components/ZhanJiDianBuZu';
+import { Loading } from './components/Loading';
 
 const initNum = 5
 
 const App: Component = () => {
   const [beilv, setBeilv] = createSignal(50)
+  const [loaded, setLoaded] = createSignal(false)
   let yiChou = 0
   const [num, setNum] = createSignal(initNum)
   const [pai, setPai] = createStore({
@@ -113,7 +113,7 @@ const App: Component = () => {
   }
 
   return (
-    <>
+    <Show when={loaded()} fallback={<Loading setLoaded={setLoaded} />}>
       <div style={{
         height: '100vh',
         display: 'flex',
@@ -123,7 +123,6 @@ const App: Component = () => {
           position: 'absolute',
           top: 0, left: 0, right: 0, bottom: 0,
           display: 'flex',
-          background: '#597F81',
           'justify-content': 'center',
           'align-items': 'center',
           'z-index': -1,
@@ -175,7 +174,7 @@ const App: Component = () => {
           <Info setShowInfo={setShowInfo} />
         </Portal>
       </Show>
-    </>
+    </Show>
   );
 };
 

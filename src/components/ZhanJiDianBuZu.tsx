@@ -3,7 +3,7 @@ import { msg } from "../utils/stores";
 
 const ZhanJiDianBuZu: Component = () => {
   return (
-    <div style={{ position: 'absolute', top: 0, left: 0, right: 0, 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center' }}>
+    <div style={{ position: 'absolute', top: '2rem', left: 0, right: 0, 'display': 'flex', 'flex-direction': 'column', 'justify-content': 'center' }}>
       <For each={msg()}>
         {(it) => (
           <div
