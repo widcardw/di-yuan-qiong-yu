@@ -15,43 +15,54 @@ import { ZhanJiDianBuZu } from './components/ZhanJiDianBuZu';
 import { Loading } from './components/Loading';
 
 const initNum = 5
+// 基础倍率
 const basicBeiLv = 110
+// 强普倍率
 const enhancedBeiLv = 264
+// 算上“听牌”行迹后的每次抽牌增伤
 const dmgIncStep = 40
+// 天赋攻击提高
 const atkIncValue = 79
 
 const App: Component = () => {
-  // const [beilv, setBeilv] = createSignal(basicBeiLv)
+  // 增伤层数
   const [dmgInc, setDmgInc] = createSignal(0)
+  // 增伤数值
   const dmgIncValue = createMemo(() => dmgInc() * dmgIncStep)
   const [loaded, setLoaded] = createSignal(false)
+  // 已经抽取的次数
   let yiChou = 0
+  // 战技点个数
   const [num, setNum] = createSignal(initNum)
+  // 手牌库
   const [pai, setPai] = createStore({
     [PaiTypes.Tong]: 0,
     [PaiTypes.Tiao]: 0,
     [PaiTypes.Wan]: 0,
   })
-
+  // 用于显示的牌库
   const [paiShown, setPaiShown] = createStore({
     [PaiTypes.Tong]: 0,
     [PaiTypes.Tiao]: 0,
     [PaiTypes.Wan]: 0,
   })
 
+  // 海底捞月得到的牌
   const [gotPai, setGotPai] = createSignal<(PaiTypes | null)[]>([])
+  // 最少的牌的类型
   const [leastPaiType, setLeastPaiType] = createSignal<(PaiTypes | undefined)>()
   const [showInfo, setShowInfo] = createSignal(false)
-
+  // 总牌数量
   const totalPaiCount = createMemo(() => pai[PaiTypes.Tong] + pai[PaiTypes.Tiao] + pai[PaiTypes.Wan])
-
+  // 是否杠开
   const gangKai = createMemo(() => (pai[PaiTypes.Tong] === 4 && pai[PaiTypes.Tiao] === 0 && pai[PaiTypes.Wan] === 0)
     || (pai[PaiTypes.Tong] === 0 && pai[PaiTypes.Tiao] === 4 && pai[PaiTypes.Wan] === 0)
     || (pai[PaiTypes.Tong] === 0 && pai[PaiTypes.Tiao] === 0 && pai[PaiTypes.Wan] === 4))
-  
+  // 若杠开，则有 79% 的攻击提高
   const atkInc = createMemo(() => (~~gangKai()) * atkIncValue)
+  // 普攻/强普的倍率
   const beiLv = createMemo(() => gangKai() ? enhancedBeiLv : basicBeiLv)
-
+  // 获取数量最少的牌的类型
   function getLeastPaiType(): PaiTypes {
     const paiList = Array.from(Object.entries(pai))
     const sortedPaiList = paiList.sort((a, b) => a[1] - b[1])
@@ -62,37 +73,38 @@ const App: Component = () => {
     }
     return sortedPaiList[0][0] as PaiTypes
   }
-
+  // 随机获取一张牌
   function getPai() {
     const pai = getRandPai()
     setGotPai(p => [...p, pai])
     setPai(pai, p => p + 1)
+    // 弃牌
     if (totalPaiCount() > 4) {
       const leastType = getLeastPaiType()
       setLeastPaiType(leastType)
       leastType && setPai(leastType, p => p - 1)
     }
   }
-
+  // 海底捞月
   function haiDiLaoYue() {
     let i = 0
     yiChou++
+    // 伤害提高
     if (yiChou <= 4) {
-      // setBeilv(p => p + 14)
       setDmgInc(p => p + 1)
     }
+    // 随机获取两张牌
     for (; i < 2; i++) {
       if (gangKai()) {
         break
       }
       getPai()
     }
+    // 如果海底捞月的第一张牌就杠开了，那么第二章为空白
     for (; i < 2; i++) {
       setGotPai(p => [...p, null])
     }
-    // if (gangKai()) {
-    //   setBeilv(p => p + 70)
-    // }
+    // 战技点减少
     setNum(p => p - 1)
     setTimeout(() => {
       setGotPai([])
@@ -119,11 +131,10 @@ const App: Component = () => {
     setPaiShown(pai)
     setGotPai([])
     setNum(randNum(2, 6))
-    // setBeilv(50)
     yiChou = 0
   }
 
-  const res = createMemo(()=> (beiLv() / 100 * (1 + dmgIncValue() / 100) * (1 + atkInc() / 100)).toFixed(2))
+  const res = createMemo(() => (beiLv() / 100 * (1 + dmgIncValue() / 100) * (1 + atkInc() / 100)).toFixed(2))
 
   return (
     <Show when={loaded()} fallback={<Loading setLoaded={setLoaded} />}>
@@ -162,7 +173,7 @@ const App: Component = () => {
           <div class="calculate-value">{beiLv()}%{atkInc() ? <>*(1+{atkInc()}%)</> : ''}{dmgIncValue() ? <>*(1+{dmgIncValue()}%)</> : ''}={res()}</div>
         </div>
         <div style={{ flex: 1 }} />
-          <CurrentTable pai={paiShown} />
+        <CurrentTable pai={paiShown} />
         <div style={{ display: 'flex', 'justify-content': 'end', "max-width": '80vw', "margin-top": '1rem', "margin-bottom": '2rem', 'margin-left': '1rem', "margin-right": '1rem' }}>
           <Point num={num()} />
           <Chou gangKai={gangKai()} num={num()} onClick={haiDiLaoYue} />
