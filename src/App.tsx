@@ -135,6 +135,10 @@ const App: Component = () => {
   }
 
   const res = createMemo(() => (beiLv() / 100 * (1 + dmgIncValue() / 100) * (1 + atkInc() / 100)).toFixed(2))
+  const beside = createMemo(() => {
+    if (!gangKai()) return ''
+    return `${basicBeiLv}%*(1+${atkInc()}%)*(1+${dmgIncValue()}%)=${(basicBeiLv / 100 * (1 + dmgIncValue() / 100) * (1 + atkInc() / 100)).toFixed(2)}`
+  })
 
   return (
     <Show when={loaded()} fallback={<Loading setLoaded={setLoaded} />}>
@@ -171,6 +175,7 @@ const App: Component = () => {
             </Match>
           </Switch>
           <div class="calculate-value">{beiLv()}%{atkInc() ? <>*(1+{atkInc()}%)</> : ''}{dmgIncValue() ? <>*(1+{dmgIncValue()}%)</> : ''}={res()}</div>
+          <div class="calculate-value">{beside()}</div>
         </div>
         <div style={{ flex: 1 }} />
         <CurrentTable pai={paiShown} />

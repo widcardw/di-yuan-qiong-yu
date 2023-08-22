@@ -130,6 +130,10 @@ a:hover {
     font-size: 2.5rem;
   }
 
+  .calculate-value {
+    font-size: 1.75rem;
+  }
+
   .pai-size {
     width: 60px;
     height: 80px;
