@@ -7,7 +7,7 @@ const Point: Component<{
     <div style={{ display: 'flex', "align-items": 'center', color: 'white' }} class="oswald">
       <div style={{ "font-size": '1.5rem' }}>{props.num}</div>
       <div style={{ width: '1rem', "text-align": 'center' }}>{'/'}</div>
-      <div style={{ width: '7rem' }}>
+      <div style={{ width: '7rem', 'white-space': 'nowrap' }}>
         <For each={Array.from({ length: props.num })}>
           {(_, __) => '🌟 '}
         </For>

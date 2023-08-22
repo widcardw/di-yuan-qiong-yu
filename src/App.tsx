@@ -15,9 +15,15 @@ import { ZhanJiDianBuZu } from './components/ZhanJiDianBuZu';
 import { Loading } from './components/Loading';
 
 const initNum = 5
+const basicBeiLv = 110
+const enhancedBeiLv = 264
+const dmgIncStep = 40
+const atkIncValue = 79
 
 const App: Component = () => {
-  const [beilv, setBeilv] = createSignal(50)
+  // const [beilv, setBeilv] = createSignal(basicBeiLv)
+  const [dmgInc, setDmgInc] = createSignal(0)
+  const dmgIncValue = createMemo(() => dmgInc() * dmgIncStep)
   const [loaded, setLoaded] = createSignal(false)
   let yiChou = 0
   const [num, setNum] = createSignal(initNum)
@@ -34,7 +40,7 @@ const App: Component = () => {
   })
 
   const [gotPai, setGotPai] = createSignal<(PaiTypes | null)[]>([])
-  const [leasetPaiType, setLeastPaiType] = createSignal<(PaiTypes | undefined)>()
+  const [leastPaiType, setLeastPaiType] = createSignal<(PaiTypes | undefined)>()
   const [showInfo, setShowInfo] = createSignal(false)
 
   const totalPaiCount = createMemo(() => pai[PaiTypes.Tong] + pai[PaiTypes.Tiao] + pai[PaiTypes.Wan])
@@ -42,6 +48,9 @@ const App: Component = () => {
   const gangKai = createMemo(() => (pai[PaiTypes.Tong] === 4 && pai[PaiTypes.Tiao] === 0 && pai[PaiTypes.Wan] === 0)
     || (pai[PaiTypes.Tong] === 0 && pai[PaiTypes.Tiao] === 4 && pai[PaiTypes.Wan] === 0)
     || (pai[PaiTypes.Tong] === 0 && pai[PaiTypes.Tiao] === 0 && pai[PaiTypes.Wan] === 4))
+  
+  const atkInc = createMemo(() => (~~gangKai()) * atkIncValue)
+  const beiLv = createMemo(() => gangKai() ? enhancedBeiLv : basicBeiLv)
 
   function getLeastPaiType(): PaiTypes {
     const paiList = Array.from(Object.entries(pai))
@@ -69,7 +78,8 @@ const App: Component = () => {
     let i = 0
     yiChou++
     if (yiChou <= 4) {
-      setBeilv(p => p + 14)
+      // setBeilv(p => p + 14)
+      setDmgInc(p => p + 1)
     }
     for (; i < 2; i++) {
       if (gangKai()) {
@@ -80,9 +90,9 @@ const App: Component = () => {
     for (; i < 2; i++) {
       setGotPai(p => [...p, null])
     }
-    if (gangKai()) {
-      setBeilv(p => p + 70)
-    }
+    // if (gangKai()) {
+    //   setBeilv(p => p + 70)
+    // }
     setNum(p => p - 1)
     setTimeout(() => {
       setGotPai([])
@@ -102,15 +112,18 @@ const App: Component = () => {
       [PaiTypes.Tong]: 0,
       [PaiTypes.Wan]: 0,
     })
+    setDmgInc(0)
     const rn = randNum(1, 3)
     for (let i = 0; i < rn; i++)
       getPai()
     setPaiShown(pai)
     setGotPai([])
     setNum(randNum(2, 6))
-    setBeilv(50)
+    // setBeilv(50)
     yiChou = 0
   }
+
+  const res = createMemo(()=> (beiLv() / 100 * (1 + dmgIncValue() / 100) * (1 + atkInc() / 100)).toFixed(2))
 
   return (
     <Show when={loaded()} fallback={<Loading setLoaded={setLoaded} />}>
@@ -146,7 +159,7 @@ const App: Component = () => {
               帝垣琼玉
             </Match>
           </Switch>
-          <div>{beilv()}</div>
+          <div class="calculate-value">{beiLv()}%{atkInc() ? <>*(1+{atkInc()}%)</> : ''}{dmgIncValue() ? <>*(1+{dmgIncValue()}%)</> : ''}={res()}</div>
         </div>
         <div style={{ flex: 1 }} />
           <CurrentTable pai={paiShown} />
